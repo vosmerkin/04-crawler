@@ -12,7 +12,7 @@ public class GetPage {
 
     public static void main(String[] args) throws IOException {
 
-        getByUrl("https://www.google.com/");
+        getByUrl("https://www.google.com.ua/");
     }
     static{
         UrlCollection=new HashSet<>();
@@ -32,10 +32,10 @@ public class GetPage {
 
             Elements hrefs = doc.select("a[href]");
             for (Element href : hrefs) {
-                System.out.println(href);
+                
                 if ((href!=null)&&(href.toString().contains(doc.baseUri()))) {
                     UrlCollection.add(href.toString());
-
+                    System.out.println(href);
                 }
 
             }
