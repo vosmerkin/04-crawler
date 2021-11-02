@@ -1,25 +1,24 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ConcurentCollectionsTest {
-
-
+public class ConcurrentHashMapCollectionsTest {
     public static void main(String[] args) {
 
-        ArrayList<Integer> list = new ArrayList();
+        List<Integer> list = new CopyOnWriteArrayList();
 
         Thread t1 = new Thread() {
             public void run() {
+                Random rnd1 = new Random();
                 while (true) {
-                    Integer rnd1 = new Random(47).nextInt();
-                    list.add(rnd1);
+                    list.add((int)(Math.random() * 50 + 1));
                     System.out.println("T1_"+rnd1);
-
+                    Thread.yield();
                     try {
                         Thread.sleep(1000);
                     } catch (Exception e) {
                     }
-                    Thread.yield();
                 }
 
 
