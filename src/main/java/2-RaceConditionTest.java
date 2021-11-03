@@ -1,6 +1,6 @@
 import java.util.concurrent.TimeUnit;
 
-public class RaceConditionTest {
+class RaceConditionTest {
     public static Integer i = 0;
 
 

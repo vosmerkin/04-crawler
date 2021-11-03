@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ConcurentCollectionsTest {
+class ConcurentCollectionsTest {
 
 
     public static void main(String[] args) {
@@ -10,16 +10,19 @@ public class ConcurentCollectionsTest {
 
         Thread t1 = new Thread() {
             public void run() {
+                System.out.println("T1_started");
                 while (true) {
-                    Integer rnd1 = new Random(47).nextInt();
-                    list.add(rnd1);
-                    System.out.println("T1_"+rnd1);
+                    int i=(int)(Math.random() * 50 + 1);
+                    list.add(i);
+                    System.out.println("T1_"+i);
 
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
+                    if (list.size()>20) {
+                        try {
+                            Thread.sleep(5000);
+                        } catch (Exception e) {
+                        }
+                        Thread.yield();
                     }
-                    Thread.yield();
                 }
 
 
@@ -30,11 +33,12 @@ public class ConcurentCollectionsTest {
 
         Thread t2 = new Thread() {
             public void run() {
+                System.out.println("T2_started");
                 for (Integer i : list) {
                     System.out.println("T2_"+i);
                     Thread.yield();
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(5000);
                     } catch (Exception e) {
                     }
                 }
@@ -44,6 +48,10 @@ public class ConcurentCollectionsTest {
         };
 
         t1.start();
+        try {
+            Thread.sleep(5000);
+        } catch (Exception e) {
+        }
         t2.start();
     }
 }

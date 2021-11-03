@@ -1,6 +1,6 @@
 import java.util.concurrent.TimeUnit;
 
-public class DeadLockTest {
+class DeadLockTest {
     static Integer[] i={0,0,0};
 
     public static void main(String[] args) {
