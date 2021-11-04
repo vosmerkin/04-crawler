@@ -11,6 +11,7 @@ class ConcurrentHashMapCollectionsTest {
 
         List<Integer> list = new CopyOnWriteArrayList();
 
+
         Thread t1 = new Thread() {
             public void run() {
                 while (true) {
