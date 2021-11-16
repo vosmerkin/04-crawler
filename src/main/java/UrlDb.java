@@ -1,5 +1,4 @@
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UrlDb {
@@ -7,33 +6,29 @@ public class UrlDb {
     public static Map.Entry<String, Boolean> UrlListEntry;
     //String for
     //
-    private static final ConcurrentHashMap<String, Boolean> UrlList = new ConcurrentHashMap<String, Boolean>();
-    private static final Iterator UrlListIterator = UrlList.entrySet().iterator();
+    private static final ConcurrentHashMap<String, Boolean> UrlList = new ConcurrentHashMap<String, Boolean>();  //boolean как показатель того, что урл уже передан какомуто потоку
 
-    public static boolean hasNext() {
-        return UrlListIterator.hasNext();
-    }
+    public static boolean hasURLsToDownload = true;
 
-    public static boolean allDownloadedLinksAnalized() {
-        return UrlList.contains(false);
-    }
 
     public static String getNextUrl() {
 
-        if (UrlListIterator.hasNext()) {
-
-            UrlListEntry = (Map.Entry<String, Boolean>) UrlListIterator.next();
-
-            return UrlListEntry.getKey();
-        } else {
-            return "";
+        Iterator<Map.Entry<String, Boolean>> UrlListIterator1 = UrlList.entrySet().iterator();
+        while (UrlListIterator1.hasNext()) {
+            Map.Entry<String, Boolean> entry = UrlListIterator1.next();
+            if (!entry.getValue()) {
+                entry.setValue(true);
+                return entry.getKey();
+            }
         }
+//        hasURLsToDownload=false;
+        return "";
     }
 
 
-    public static void addUrl(String Url) {
-        if (!UrlList.containsKey(Url)) {
-            UrlList.put(Url, false);
+    public static void addUrl(String url) {
+        if (!UrlList.containsKey(url)) {
+            UrlList.put(url, false);
         }
 
     }

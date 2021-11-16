@@ -4,12 +4,18 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class DownloadThread implements Runnable {
+    String id;
+
+    DownloadThread (String id) {
+        this.id=id;
+    }
+
+
     @Override
     public void run() {
-        String url;
-        Document doc;
-
-//        while (UrlDb.hasNext()) {
+        String url=null;
+        Document doc=null;
+        //        while (UrlDb.hasNext()) {
 //            //get new link from db
 //            if (UrlDb.hasNext()) {
 //                url = UrlDb.getNextUrl();
@@ -23,15 +29,26 @@ public class DownloadThread implements Runnable {
 //                }
 //            }
 //        }
-        url = UrlDb.getNextUrl();
 
-        //download url
-        if (!"".equals(url)) {
+        while (UrlDb.hasURLsToDownload) {
+            url = UrlDb.getNextUrl();
+            System.out.println("ID "+ id + " URL "+url);
+            //download url
+            if (!"".equals(url)) {
+                try {
+                    doc = GetByUrl.getByUrl(url);
+
+                    AnalizePage.Analize(doc);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             try {
-                doc = GetByUrl.getByUrl(url);
-            } catch (IOException e) {
+                TimeUnit.MILLISECONDS.sleep(1000);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            Thread.yield();
         }
 
 

@@ -12,9 +12,9 @@ public class AnalizePage {
 
         Elements hrefs = doc.select("a[href]");
         for (Element href : hrefs) {
-            if ((href!=null)&&(href.toString().contains(doc.baseUri()))) {
-                UrlDb.addUrl(href.toString());
-                System.out.println(href);
+            if ((href!=null)&&(href.attr("abs:href").toString().contains(doc.baseUri()))) {
+                UrlDb.addUrl(href.attr("abs:href").toString());
+//               System.out.println(href.attr("abs:href"));
             }
         }
     }
