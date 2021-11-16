@@ -1,12 +1,14 @@
+package test;
+
 import java.util.concurrent.TimeUnit;
 
 class DeadLockTest {
-    static Integer[] i={0,0,0};
+    static Integer[] i = {0, 0, 0};
 
     public static void main(String[] args) {
 
-        Thread t1 = new Thread(new CommonResource(1,2));
-        Thread t2 = new Thread(new CommonResource(2,1));
+        Thread t1 = new Thread(new CommonResource(1, 2));
+        Thread t2 = new Thread(new CommonResource(2, 1));
 
         t1.start();
         t2.start();

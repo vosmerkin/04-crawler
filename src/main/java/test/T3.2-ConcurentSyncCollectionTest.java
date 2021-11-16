@@ -1,9 +1,8 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+package test;
 
-public class ConcurentSyncCollectionTest {
+import java.util.ArrayList;
+
+class ConcurentSyncCollectionTest {
     public static void main(String[] args) {
 
         ArrayList<Integer> list = new ArrayList();
@@ -12,7 +11,7 @@ public class ConcurentSyncCollectionTest {
         Thread t1 = new Thread() {
             public void run() {
                 System.out.println("T1_started");
-                synchronized(list) {
+                synchronized (list) {
                     while (true) {
                         int i = (int) (Math.random() * 50 + 1);
                         list.add(i);
