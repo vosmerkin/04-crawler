@@ -1,15 +1,16 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class ConcurentSyncCollectionTest {
     public static void main(String[] args) {
 
-        ArrayList<Integer> list = new ArrayList();
-
+        List<Integer> list = new ArrayList();
 
         Thread t1 = new Thread() {
             public void run() {
+//                List<Integer> integers = Collections.synchronizedList(list);
                 System.out.println("T1_started");
                 synchronized (list) {
                     while (true) {
@@ -40,7 +41,7 @@ class ConcurentSyncCollectionTest {
         Thread t2 = new Thread() {
             public void run() {
                 System.out.println("T2_started");
-                synchronized(list) {
+                synchronized (list) {
                     for (Integer i : list) {
                         System.out.println("T2_" + i);
                         Thread.yield();
