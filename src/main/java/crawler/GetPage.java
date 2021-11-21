@@ -1,21 +1,16 @@
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+package crawler;
 
 
 import java.io.IOException;
-import java.util.*;
 
-public class GetPage {
+public class  GetPage {
 
 
     public static void main(String[] args) throws IOException {
 
-        UrlDb UrlDb = new UrlDb();
-        UrlDb.addUrl("https://sitejs.org/");
-        UrlDb.hasURLsToDownload = true;
+        UrlDb urlDb = new UrlDb();
+        urlDb.addUrl("https://sitejs.org/");
+        urlDb.hasURLsToDownload = true;
 
 
 
