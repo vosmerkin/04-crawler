@@ -5,15 +5,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class UrlDb {
 
-    public static Map.Entry<String, Boolean> UrlListEntry;
+//    public static Map.Entry<String, Boolean> UrlListEntry;
     //String for
     //
     private static final ConcurrentHashMap<String, Boolean> UrlList = new ConcurrentHashMap<String, Boolean>();  //boolean как показатель того, что урл уже передан какомуто потоку
 
-    public static boolean hasURLsToDownload = true;
+    public  boolean hasURLsToDownload = true;
 
 
-    public static String getNextUrl() {
+    public  String getNextUrl() {
 
         Iterator<Map.Entry<String, Boolean>> UrlListIterator1 = UrlList.entrySet().iterator();
         while (UrlListIterator1.hasNext()) {
@@ -28,7 +28,7 @@ public class UrlDb {
     }
 
 
-    public static void addUrl(String url) {
+    public  void addUrl(String url) {
         if (!UrlList.containsKey(url)) {
             UrlList.put(url, false);
         }

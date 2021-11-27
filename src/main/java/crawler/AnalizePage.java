@@ -9,11 +9,12 @@ import java.io.IOException;
 public class AnalizePage {
 
     public void analize(Document doc) throws IOException {
+        UrlDb db = new UrlDb();
 
         Elements hrefs = doc.select("a[href]");
         for (Element href : hrefs) {
             if ((href!=null)&&(href.attr("abs:href").toString().contains(doc.baseUri()))) {
-                UrlDb.addUrl(href.attr("abs:href").toString());
+                db.addUrl(href.attr("abs:href").toString());
 //               System.out.println(href.attr("abs:href"));
             }
         }
