@@ -8,16 +8,16 @@ public class UrlDb {
 //    public static Map.Entry<String, Boolean> UrlListEntry;
     //String for
     //
-    private static final ConcurrentHashMap<String, Boolean> UrlList = new ConcurrentHashMap<String, Boolean>();  //boolean как показатель того, что урл уже передан какомуто потоку
+    private static final Map<String, Boolean> UrlList = new ConcurrentHashMap<String, Boolean>();  //boolean как показатель того, что урл уже передан какомуто потоку
 
-    public  boolean hasURLsToDownload = true;
+    public  boolean hasURLsToDownload=true;
+//            () { return UrlList.containsValue(true); };
 
 
     public  String getNextUrl() {
 
-        Iterator<Map.Entry<String, Boolean>> UrlListIterator1 = UrlList.entrySet().iterator();
-        while (UrlListIterator1.hasNext()) {
-            Map.Entry<String, Boolean> entry = UrlListIterator1.next();
+        for(Map.Entry<String, Boolean> entry: UrlList.entrySet())
+        {
             if (!entry.getValue()) {
                 entry.setValue(true);
                 return entry.getKey();

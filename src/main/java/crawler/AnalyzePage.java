@@ -6,9 +6,9 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-public class AnalizePage {
+public class AnalyzePage {
 
-    public void analize(Document doc) throws IOException {
+    public void analyze(Document doc) throws IOException {
         UrlDb db = new UrlDb();
 
         Elements hrefs = doc.select("a[href]");

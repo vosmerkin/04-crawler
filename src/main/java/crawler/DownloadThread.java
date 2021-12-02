@@ -17,7 +17,7 @@ public class DownloadThread implements Runnable {
     public void run() {
         String url=null;
         Document doc=null;
-        AnalizePage analizePage=new AnalizePage();
+        AnalyzePage analizePage=new AnalyzePage();
         UrlDb db=new UrlDb();
         GetByUrl getByUrl=new GetByUrl();
 
@@ -29,7 +29,7 @@ public class DownloadThread implements Runnable {
                 try {
                     doc = getByUrl.getByUrl(url);
 
-                    analizePage.analize(doc);
+                    analizePage.analyze(doc);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
