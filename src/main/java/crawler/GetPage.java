@@ -12,17 +12,23 @@ public class  GetPage {
     public static void main(String[] args) throws IOException {
 
         UrlDb urlDb = new UrlDb();
-        urlDb.addUrl("https://sitejs.org/");
-        urlDb.hasURLsToDownload = true;
+//        urlDb.addUrl("https://sitejs.org/");
+        urlDb.addUrl("https://lider-group.com.ua/");
 
-        int threadCount=5;
+
+        int threadCount=1;
 
 
 
         ExecutorService exec = Executors.newFixedThreadPool(threadCount);
         for (int i = 0; i < threadCount; i++) {
             exec.execute(new DownloadThread(Integer.toString(i+1)));
+            exec.execute(new AnalyzeThread(Integer.toString(i+1)));
+
         }
+
+
+
 //        Thread t1 = new Thread(new DownloadThread("1"));
 //        Thread t2 = new Thread(new DownloadThread("2"));
 //        Thread t3 = new Thread(new DownloadThread("3"));
