@@ -16,12 +16,8 @@ public class  GetPage {
         urlDb.addUrl("https://lider-group.com.ua/");
 
 
-        int threadCount=1;
-
-
-
-        ExecutorService exec = Executors.newFixedThreadPool(threadCount);
-        for (int i = 0; i < threadCount; i++) {
+        ExecutorService exec = Executors.newFixedThreadPool(params.threadsCount);
+        for (int i = 0; i < params.threadsCount; i++) {
             exec.execute(new DownloadThread(Integer.toString(i+1)));
             exec.execute(new AnalyzeThread(Integer.toString(i+1)));
 
