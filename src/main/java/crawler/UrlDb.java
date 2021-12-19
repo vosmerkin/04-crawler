@@ -13,16 +13,18 @@ public class UrlDb {
     //String for
     //
     public static final Set<String> UrlList = new CopyOnWriteArraySet<>();
+    public static final Set<String> UrlListQueue= new CopyOnWriteArraySet<>();
     public static final Set<Document> AnalyzeList = new CopyOnWriteArraySet<>();
-    private Lock lock = new ReentrantLock();
+//    private Lock lock = new ReentrantLock();
 
     public boolean hasURLsToDownload() {
-        System.out.println("UrlList isEmpty = " + UrlList.isEmpty());
+        System.out.print("UrlList isEmpty = " + UrlList.isEmpty());
+        System.out.println(" UrlList size " + UrlList.size());
         return !UrlList.isEmpty();
     }
 
     public boolean hasPagesToAnalyze() {
-        System.out.print("AnalyzeList isEmpty = " + UrlList.isEmpty());
+        System.out.print("AnalyzeList isEmpty = " + AnalyzeList.isEmpty());
         System.out.println(" AnalyzeList size " + AnalyzeList.size());
         return !AnalyzeList.isEmpty();
     }
@@ -51,7 +53,7 @@ public class UrlDb {
 
         while (UrlList.isEmpty()) {
             try {
-                System.out.println("UrlList size" + UrlList.size() + ".Waiting");
+                System.out.println("UrlList size" + UrlList.size() + ". Waiting");
                 wait();
             } catch (InterruptedException e) {
             }
@@ -79,7 +81,7 @@ public class UrlDb {
 
         while (AnalyzeList.isEmpty()) {
             try {
-                System.out.println("AnalyzeList size " + AnalyzeList.size() + ".Waiting");
+                System.out.println("AnalyzeList size " + AnalyzeList.size() + ". Waiting");
                 wait();
             } catch (InterruptedException e) {
             }

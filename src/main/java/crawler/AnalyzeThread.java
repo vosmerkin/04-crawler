@@ -36,9 +36,9 @@ public class AnalyzeThread implements Runnable {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("ID " + id + " Analyze idling for " + params.nextNullTimeout + "ms");
+                System.out.println("ID " + id + " Analyze idling for " + params.nextIsNullTimeout + "ms");
                 try {
-                    TimeUnit.MILLISECONDS.sleep(params.nextNullTimeout);
+                    TimeUnit.MILLISECONDS.sleep(params.nextIsNullTimeout);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

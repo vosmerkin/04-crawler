@@ -12,8 +12,8 @@ public class  GetPage {
     public static void main(String[] args) throws IOException {
 
         UrlDb urlDb = new UrlDb();
-//        urlDb.addUrl("https://sitejs.org/");
-        urlDb.addUrl("https://lider-group.com.ua/");
+        urlDb.addUrl("https://sitejs.org/");
+//        urlDb.addUrl("https://lider-group.com.ua/");
 
 
         ExecutorService exec = Executors.newFixedThreadPool(params.threadsCount);

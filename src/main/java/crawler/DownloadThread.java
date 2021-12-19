@@ -41,9 +41,9 @@ public class DownloadThread implements Runnable {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("ID " + id + " Download idling for " + params.nextNullTimeout + "ms");
+                System.out.println("ID " + id + " Download idling for " + params.nextIsNullTimeout + "ms");
                 try {
-                    TimeUnit.MILLISECONDS.sleep(params.nextNullTimeout);
+                    TimeUnit.MILLISECONDS.sleep(params.nextIsNullTimeout);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
