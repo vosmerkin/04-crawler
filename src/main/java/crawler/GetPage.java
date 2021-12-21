@@ -18,8 +18,8 @@ public class  GetPage {
 
         ExecutorService exec = Executors.newFixedThreadPool(params.threadsCount);
         for (int i = 0; i < params.threadsCount; i++) {
-            exec.execute(new DownloadThread(Integer.toString(i+1)));
-            exec.execute(new AnalyzeThread(Integer.toString(i+1)));
+            exec.execute(new  DownloadThread(Integer.toString(i+1),urlDb));
+            exec.execute(new AnalyzeThread(Integer.toString(i+1),urlDb));
 
         }
 

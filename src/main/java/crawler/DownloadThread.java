@@ -9,10 +9,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class DownloadThread implements Runnable {
     String id;
-    private final Lock lock = new ReentrantLock();
+//    private final Lock lock = new ReentrantLock();
+    private  UrlDb urlDb;
 
-    DownloadThread(String id) {
+    DownloadThread(String id, UrlDb db ) {
         this.id = id;
+        urlDb=db;
     }
 
 
@@ -20,7 +22,6 @@ public class DownloadThread implements Runnable {
     public void run() {
         String url = null;
         Document doc = null;
-        UrlDb db = new UrlDb();
         GetByUrl getByUrl = new GetByUrl();
 
 
@@ -29,7 +30,7 @@ public class DownloadThread implements Runnable {
 
 
             System.out.println("ID " + id + " Requesting URL ");
-            url = db.getNextUrl();
+            url = urlDb.getNextUrl();
             System.out.println("ID " + id + " Received URL " + url);
 
 
@@ -37,7 +38,7 @@ public class DownloadThread implements Runnable {
                 System.out.println("ID " + id + " Downloading URL " + url);
                 try {
                     doc = getByUrl.getByUrl(url);
-                    db.addPage(doc);
+                    urlDb.addPage(doc);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

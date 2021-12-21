@@ -9,16 +9,17 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class AnalyzeThread implements Runnable {
     String id;
-    private final Lock lock = new ReentrantLock();
+    private  UrlDb urlDb;
+//    private final Lock lock = new ReentrantLock();
 
-    AnalyzeThread(String id) {
+    AnalyzeThread (String id,UrlDb db ) {
         this.id = id;
+        urlDb=db;
     }
 
 
     @Override
     public void run() {
-        UrlDb db = new UrlDb();
         Document doc = null;
         AnalyzePage analyzePage = new AnalyzePage();
 
@@ -26,7 +27,7 @@ public class AnalyzeThread implements Runnable {
         while (true) {
 
             System.out.println("ID " + id + " Requesting page ");
-            doc = db.getNextPage();
+            doc = urlDb.getNextPage();
             System.out.println("ID " + id + " Received page " + doc.baseUri());
 
             if (!(null == doc)) {
