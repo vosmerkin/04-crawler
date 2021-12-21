@@ -24,7 +24,8 @@ public class DownloadThread implements Runnable {
         GetByUrl getByUrl = new GetByUrl();
 
 
-        while (db.hasURLsToDownload() || db.hasPagesToAnalyze()) {
+//        while (db.hasURLsToDownload() || db.hasPagesToAnalyze()) {
+        while (true) {
 
 
             System.out.println("ID " + id + " Requesting URL ");
@@ -51,6 +52,6 @@ public class DownloadThread implements Runnable {
 
 
         }
-        System.out.println("ID " + id + " Download finished");
+//        System.out.println("ID " + id + " Download finished");
     }
 }

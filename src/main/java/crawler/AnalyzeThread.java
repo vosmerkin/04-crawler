@@ -22,7 +22,8 @@ public class AnalyzeThread implements Runnable {
         Document doc = null;
         AnalyzePage analyzePage = new AnalyzePage();
 
-        while (db.hasURLsToDownload() || db.hasPagesToAnalyze()) {
+//        while (db.hasURLsToDownload() || db.hasPagesToAnalyze()) {
+        while (true) {
 
             System.out.println("ID " + id + " Requesting page ");
             doc = db.getNextPage();
@@ -46,6 +47,6 @@ public class AnalyzeThread implements Runnable {
 
 
         }
-        System.out.println("ID " + id + " Analyze finished");
+//        System.out.println("ID " + id + " Analyze finished");
     }
 }
