@@ -3,18 +3,21 @@ package crawler;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class AnalyzeThread implements Runnable {
     String id;
-    private  UrlDb urlDb;
-//    private final Lock lock = new ReentrantLock();
+    private DownloadDb downloadDb;
+    private AnalyzeDb analyzeDb;
 
-    AnalyzeThread (String id,UrlDb db ) {
+
+
+    AnalyzeThread (String id, DownloadDb downloadDb, AnalyzeDb analyzeDb) {
         this.id = id;
-        urlDb=db;
+        this.downloadDb =downloadDb;
+        this.analyzeDb=analyzeDb;
     }
 
 
@@ -23,24 +26,29 @@ public class AnalyzeThread implements Runnable {
         Document doc = null;
         AnalyzePage analyzePage = new AnalyzePage();
 
-//        while (db.hasURLsToDownload() || db.hasPagesToAnalyze()) {
-        while (true) {
+
+        while (downloadDb.hasElementsToProceed() || analyzeDb.hasElementsToProceed()) {
+//        while (true) {
 
             System.out.println("ID " + id + " Requesting page ");
-            doc = urlDb.getNextPage();
-            System.out.println("ID " + id + " Received page " + doc.baseUri());
+            try {
+                doc = analyzeDb.getNext();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+//            System.out.println("ID " + id + " Received page " + doc.baseUri());
 
             if (!(null == doc)) {
                 System.out.println("ID " + id + " Analyzing page " + doc.baseUri());
                 try {
-                    analyzePage.analyze(doc);
-                } catch (IOException e) {
+                    analyzePage.analyze(doc, downloadDb);
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("ID " + id + " Analyze idling for " + params.nextIsNullTimeout + "ms");
+                System.out.println("ID " + id + " Analyze idling for " + params.NEXT_IS_NULL_TIMEOUT + "ms");
                 try {
-                    TimeUnit.MILLISECONDS.sleep(params.nextIsNullTimeout);
+                    TimeUnit.MILLISECONDS.sleep(params.NEXT_IS_NULL_TIMEOUT);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -4,17 +4,16 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class DownloadThread implements Runnable {
     String id;
-//    private final Lock lock = new ReentrantLock();
-    private  UrlDb urlDb;
+    private DownloadDb downloadDb;
+    private AnalyzeDb analyzeDb;
 
-    DownloadThread(String id, UrlDb db ) {
+    DownloadThread(String id, DownloadDb downloadDb, AnalyzeDb analyzeDb) {
         this.id = id;
-        urlDb=db;
+        this.downloadDb =downloadDb;
+        this.analyzeDb=analyzeDb;
     }
 
 
@@ -22,30 +21,34 @@ public class DownloadThread implements Runnable {
     public void run() {
         String url = null;
         Document doc = null;
-        GetByUrl getByUrl = new GetByUrl();
+        DownloadUrl downloadUrl = new DownloadUrl();
 
 
-//        while (db.hasURLsToDownload() || db.hasPagesToAnalyze()) {
-        while (true) {
+        while (downloadDb.hasElementsToProceed() || analyzeDb.hasElementsToProceed()) {
+//        while (true) {
 
 
             System.out.println("ID " + id + " Requesting URL ");
-            url = urlDb.getNextUrl();
+            try {
+                url = downloadDb.getNext();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             System.out.println("ID " + id + " Received URL " + url);
 
 
-            if (!"".equals(url)) {
+            if (!(null ==url)) {
                 System.out.println("ID " + id + " Downloading URL " + url);
                 try {
-                    doc = getByUrl.getByUrl(url);
-                    urlDb.addPage(doc);
-                } catch (IOException e) {
+                    doc = downloadUrl.getByUrl(url);
+                    analyzeDb.add(doc);
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("ID " + id + " Download idling for " + params.nextIsNullTimeout + "ms");
+                System.out.println("ID " + id + " Download idling for " + params.NEXT_IS_NULL_TIMEOUT + "ms");
                 try {
-                    TimeUnit.MILLISECONDS.sleep(params.nextIsNullTimeout);
+                    TimeUnit.MILLISECONDS.sleep(params.NEXT_IS_NULL_TIMEOUT);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

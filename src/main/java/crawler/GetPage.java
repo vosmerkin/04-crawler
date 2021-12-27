@@ -4,22 +4,22 @@ package crawler;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class  GetPage {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
-        UrlDb urlDb = new UrlDb();
-        urlDb.addUrl("https://sitejs.org/");
+        DownloadDb downloadDb = new DownloadDb();
+        AnalyzeDb analyzeDb = new AnalyzeDb();
+        downloadDb.add("https://sitejs.org/");
 //        urlDb.addUrl("https://lider-group.com.ua/");
 
 
-        ExecutorService exec = Executors.newFixedThreadPool(params.threadsCount);
-        for (int i = 0; i < params.threadsCount; i++) {
-            exec.execute(new  DownloadThread(Integer.toString(i+1),urlDb));
-            exec.execute(new AnalyzeThread(Integer.toString(i+1),urlDb));
+        ExecutorService exec = Executors.newFixedThreadPool(params.THREADS_COUNT);
+        for (int i = 0; i < params.THREADS_COUNT; i++) {
+            exec.execute(new DownloadThread(Integer.toString(i+1), downloadDb, analyzeDb));
+            exec.execute(new AnalyzeThread(Integer.toString(i+1), downloadDb, analyzeDb));
 
         }
 
