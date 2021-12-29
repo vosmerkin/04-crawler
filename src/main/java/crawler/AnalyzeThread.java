@@ -3,59 +3,55 @@ package crawler;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 public class AnalyzeThread implements Runnable {
     String id;
-    private DownloadDb downloadDb;
-    private AnalyzeDb analyzeDb;
+    private final DownloadDb downloadDb;
+    private final AnalyzeDb analyzeDb;
 
 
-
-    AnalyzeThread (String id, DownloadDb downloadDb, AnalyzeDb analyzeDb) {
+    AnalyzeThread(String id, DownloadDb downloadDb, AnalyzeDb analyzeDb) {
         this.id = id;
-        this.downloadDb =downloadDb;
-        this.analyzeDb=analyzeDb;
+        this.downloadDb = downloadDb;
+        this.analyzeDb = analyzeDb;
     }
 
 
     @Override
     public void run() {
+        Thread.currentThread().setName(id);
+        System.out.println("ID " + Thread.currentThread().getId() + " Analyze started");
         Document doc = null;
         AnalyzePage analyzePage = new AnalyzePage();
+        boolean alive = true;
 
 
-        while (downloadDb.hasElementsToProceed() || analyzeDb.hasElementsToProceed()) {
-//        while (true) {
+        while (alive) {
 
-            System.out.println("ID " + id + " Requesting page ");
+            System.out.println("ID " + Thread.currentThread().getId() + " Requesting page ");
             try {
                 doc = analyzeDb.getNext();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-//            System.out.println("ID " + id + " Received page " + doc.baseUri());
+//            System.out.println("ID " + id + " Received page " + ((null==doc)? null :doc.baseUri()));
 
             if (!(null == doc)) {
-                System.out.println("ID " + id + " Analyzing page " + doc.baseUri());
+                System.out.println("ID " + Thread.currentThread().getId() +" Analyzing page " + doc.baseUri());
                 try {
                     analyzePage.analyze(doc, downloadDb);
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("ID " + id + " Analyze idling for " + params.NEXT_IS_NULL_TIMEOUT + "ms");
-                try {
-                    TimeUnit.MILLISECONDS.sleep(params.NEXT_IS_NULL_TIMEOUT);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+                alive = false;
+
+
             }
 
 
         }
-//        System.out.println("ID " + id + " Analyze finished");
+        System.out.println("ID " + Thread.currentThread().getId() + " Analyze finishing");
     }
 }

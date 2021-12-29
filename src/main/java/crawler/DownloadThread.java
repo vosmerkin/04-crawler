@@ -3,42 +3,43 @@ package crawler;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class DownloadThread implements Runnable {
     String id;
-    private DownloadDb downloadDb;
-    private AnalyzeDb analyzeDb;
+    private final DownloadDb downloadDb;
+    private final AnalyzeDb analyzeDb;
 
     DownloadThread(String id, DownloadDb downloadDb, AnalyzeDb analyzeDb) {
         this.id = id;
-        this.downloadDb =downloadDb;
-        this.analyzeDb=analyzeDb;
+        this.downloadDb = downloadDb;
+        this.analyzeDb = analyzeDb;
     }
 
 
     @Override
     public void run() {
+        Thread.currentThread().setName(id);
+        System.out.println("ID " + Thread.currentThread().getId() + " Download started");
         String url = null;
-        Document doc = null;
+        Document doc;
         DownloadUrl downloadUrl = new DownloadUrl();
+        boolean alive = true;
 
 
-        while (downloadDb.hasElementsToProceed() || analyzeDb.hasElementsToProceed()) {
-//        while (true) {
+        while (alive) {
 
 
-            System.out.println("ID " + id + " Requesting URL ");
+            System.out.println("ID " + Thread.currentThread().getId() + " Requesting URL ");
             try {
                 url = downloadDb.getNext();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("ID " + id + " Received URL " + url);
+//            System.out.println("ID " + Thread.currentThread().getId() + " Received URL " + url);
 
 
-            if (!(null ==url)) {
-                System.out.println("ID " + id + " Downloading URL " + url);
+            if (!(null == url)) {
+                System.out.println("ID " + Thread.currentThread().getId() + " Downloading URL " + url);
                 try {
                     doc = downloadUrl.getByUrl(url);
                     analyzeDb.add(doc);
@@ -46,16 +47,13 @@ public class DownloadThread implements Runnable {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("ID " + id + " Download idling for " + params.NEXT_IS_NULL_TIMEOUT + "ms");
-                try {
-                    TimeUnit.MILLISECONDS.sleep(params.NEXT_IS_NULL_TIMEOUT);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+                alive = false;
+
             }
 
 
         }
-//        System.out.println("ID " + id + " Download finished");
+        System.out.println("ID " + Thread.currentThread().getId() + " Download finishing");
     }
 }

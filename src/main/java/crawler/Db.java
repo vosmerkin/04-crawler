@@ -1,8 +1,8 @@
 package crawler;
 
 public interface Db <T> {
-    public boolean hasElementsToProceed();
-    public void add(T element) throws InterruptedException;
-    public T getNext() throws InterruptedException;
+    void add(T element) throws InterruptedException;
+
+    T getNext() throws InterruptedException;
 
 }

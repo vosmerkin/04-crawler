@@ -14,8 +14,8 @@ public class AnalyzePage {
         Elements hrefs = doc.select("a[href]");
         for (Element href : hrefs) {
 //            System.out.println(href.attr("abs:href"));
-            if ((href!=null)&&(href.attr("abs:href").toString().contains(doc.baseUri()))) {
-                downloadDb.add(href.attr("abs:href").toString());
+            if ((href!=null)&&(href.attr("abs:href").contains(doc.baseUri()))) {
+                downloadDb.add(href.attr("abs:href"));
 //               System.out.println(href.attr("abs:href"));
             }
         }
