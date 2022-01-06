@@ -16,6 +16,9 @@ public class AnalyzeThread implements Runnable {
         this.analyzeDb = analyzeDb;
     }
 
+    public Long getId(){
+        return Thread.currentThread().getId();
+    }
 
     @Override
     public void run() {
