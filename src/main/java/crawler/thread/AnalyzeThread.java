@@ -1,17 +1,18 @@
-package crawler;
+package crawler.thread;
 
+import crawler.AnalyzePage;
+import crawler.queue.AnalyzeQueue;
+import crawler.queue.DownloadQueue;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
 public class AnalyzeThread implements Runnable {
-    String id;
-    private final DownloadDb downloadDb;
-    private final AnalyzeDb analyzeDb;
+    private final DownloadQueue downloadDb;
+    private final AnalyzeQueue analyzeDb;
 
 
-    AnalyzeThread(String id, DownloadDb downloadDb, AnalyzeDb analyzeDb) {
-        this.id = id;
+    public AnalyzeThread(DownloadQueue downloadDb, AnalyzeQueue analyzeDb) {
         this.downloadDb = downloadDb;
         this.analyzeDb = analyzeDb;
     }
@@ -22,33 +23,32 @@ public class AnalyzeThread implements Runnable {
 
     @Override
     public void run() {
-        Thread.currentThread().setName(id);
-        System.out.println("ID " + Thread.currentThread().getId() + " Analyze started");
+        System.out.println("ID " + getId() + " Analyze started");
         Document doc = null;
         AnalyzePage analyzePage = new AnalyzePage();
-        boolean alive = true;
+        boolean hasElementsToAnalyze = true;
 
 
-        while (alive) {
-            System.out.println("ID " + Thread.currentThread().getId() + " Requesting page ");
+        while (hasElementsToAnalyze) {
+            System.out.println("ID " + getId() + " Requesting page ");
             try {
-                doc = analyzeDb.getNext();
+                doc = analyzeDb.getNextElement();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 //            System.out.println("ID " + id + " Received page " + ((null==doc)? null :doc.baseUri()));
 
             if (!(null == doc)) {
-                System.out.println("ID " + Thread.currentThread().getId() +" Analyzing page " + doc.baseUri());
+                System.out.println("ID " + getId() + " Analyzing page " + doc.baseUri());
                 try {
                     analyzePage.analyze(doc, downloadDb);
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             } else {
-                alive = false;
+                hasElementsToAnalyze = false;
             }
         }
-        System.out.println("ID " + Thread.currentThread().getId() + " Analyze finishing");
+        System.out.println("ID " + getId() + " Analyze finishing");
     }
 }

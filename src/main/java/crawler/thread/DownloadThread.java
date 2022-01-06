@@ -1,16 +1,19 @@
-package crawler;
+package crawler.thread;
 
+import crawler.DownloadUrl;
+import crawler.queue.AnalyzeQueue;
+import crawler.queue.DownloadQueue;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
 public class DownloadThread implements Runnable {
-    String id;
-    private final DownloadDb downloadDb;
-    private final AnalyzeDb analyzeDb;
 
-    DownloadThread(String id, DownloadDb downloadDb, AnalyzeDb analyzeDb) {
-        this.id = id;
+    private final DownloadQueue downloadDb;
+    private final AnalyzeQueue analyzeDb;
+
+    public DownloadThread(DownloadQueue downloadDb, AnalyzeQueue analyzeDb) {
+
         this.downloadDb = downloadDb;
         this.analyzeDb = analyzeDb;
     }
@@ -21,20 +24,19 @@ public class DownloadThread implements Runnable {
 
     @Override
     public void run() {
-        Thread.currentThread().setName(id);
-        System.out.println("ID " + Thread.currentThread().getId() + " Download started");
+        System.out.println("ID " + getId() + " Download started");
         String url = null;
         Document doc;
         DownloadUrl downloadUrl = new DownloadUrl();
-        boolean alive = true;
+        boolean hasElementsToDownload = true;
 
 
-        while (alive) {
+        while (hasElementsToDownload) {
 
 
-            System.out.println("ID " + Thread.currentThread().getId() + " Requesting URL ");
+            System.out.println("ID " + getId() + " Requesting URL ");
             try {
-                url = downloadDb.getNext();
+                url = downloadDb.getNextElement();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -42,21 +44,21 @@ public class DownloadThread implements Runnable {
 
 
             if (!(null == url)) {
-                System.out.println("ID " + Thread.currentThread().getId() + " Downloading URL " + url);
+                System.out.println("ID " + getId() + " Downloading URL " + url);
                 try {
                     doc = downloadUrl.getByUrl(url);
-                    analyzeDb.add(doc);
+                    analyzeDb.addElement(doc);
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             } else {
 
-                alive = false;
+                hasElementsToDownload = false;
 
             }
 
 
         }
-        System.out.println("ID " + Thread.currentThread().getId() + " Download finishing");
+        System.out.println("ID " + getId() + " Download finishing");
     }
 }
