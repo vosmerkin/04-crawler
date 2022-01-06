@@ -7,7 +7,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class AnalyzePage {
-//    private DownloadDb downloadDb;
+
 
     public void analyze(Document doc, DownloadDb downloadDb) throws IOException, InterruptedException {
 
@@ -16,7 +16,6 @@ public class AnalyzePage {
 //            System.out.println(href.attr("abs:href"));
             if ((href!=null)&&(href.attr("abs:href").contains(doc.baseUri()))) {
                 downloadDb.add(href.attr("abs:href"));
-//               System.out.println(href.attr("abs:href"));
             }
         }
 //        System.out.println("AnalyzePage quiting");

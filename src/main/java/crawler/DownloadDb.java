@@ -19,7 +19,6 @@ public class DownloadDb implements Db<String> {
 //            System.out.println("  size before " + list.size()+" "+ queue.size());
             list.add(element);
             queue.put(element);
-//            queue.offer(element,10,TimeUnit.SECONDS );
 //            System.out.println("UrlList size after " + list.size()+" "+ queue.size());
         }
 

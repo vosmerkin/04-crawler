@@ -30,7 +30,6 @@ public class AnalyzeThread implements Runnable {
 
 
         while (alive) {
-
             System.out.println("ID " + Thread.currentThread().getId() + " Requesting page ");
             try {
                 doc = analyzeDb.getNext();
@@ -47,13 +46,8 @@ public class AnalyzeThread implements Runnable {
                     e.printStackTrace();
                 }
             } else {
-
                 alive = false;
-
-
             }
-
-
         }
         System.out.println("ID " + Thread.currentThread().getId() + " Analyze finishing");
     }
