@@ -8,17 +8,11 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class AnalyzePage {
-
-
     public void analyze(Document doc, DownloadQueue downloadDb) throws IOException, InterruptedException {
-
-        Elements hrefs = doc.select("a[href]");
+        Elements hrefs = doc.select(Params.URL_SEARCH_STRING1);
         for (Element href : hrefs) {
-//            System.out.println(href.attr("abs:href"));
-            if ((href!=null)&&(href.attr("abs:href").contains(doc.baseUri()))) {
-                downloadDb.addElement(href.attr("abs:href"));
-            }
+            if (href != null && href.attr(Params.URL_SEARCH_STRING2).contains(doc.baseUri()))
+                downloadDb.addElement(href.attr(Params.URL_SEARCH_STRING2));
         }
-//        System.out.println("AnalyzePage quiting");
     }
 }

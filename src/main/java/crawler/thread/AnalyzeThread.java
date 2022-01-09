@@ -11,13 +11,12 @@ public class AnalyzeThread implements Runnable {
     private final DownloadQueue downloadDb;
     private final AnalyzeQueue analyzeDb;
 
-
     public AnalyzeThread(DownloadQueue downloadDb, AnalyzeQueue analyzeDb) {
         this.downloadDb = downloadDb;
         this.analyzeDb = analyzeDb;
     }
 
-    public Long getId(){
+    public Long getId() {
         return Thread.currentThread().getId();
     }
 
@@ -27,8 +26,6 @@ public class AnalyzeThread implements Runnable {
         Document doc = null;
         AnalyzePage analyzePage = new AnalyzePage();
         boolean hasElementsToAnalyze = true;
-
-
         while (hasElementsToAnalyze) {
             System.out.println("ID " + getId() + " Requesting page ");
             try {
@@ -36,8 +33,6 @@ public class AnalyzeThread implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-//            System.out.println("ID " + id + " Received page " + ((null==doc)? null :doc.baseUri()));
-
             if (!(null == doc)) {
                 System.out.println("ID " + getId() + " Analyzing page " + doc.baseUri());
                 try {

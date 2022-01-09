@@ -1,6 +1,5 @@
 package crawler;
 
-
 import crawler.queue.AnalyzeQueue;
 import crawler.queue.DownloadQueue;
 import crawler.thread.AnalyzeThread;
@@ -11,15 +10,10 @@ import java.util.concurrent.Executors;
 
 public class GetPage {
 
-
     public static void main(String[] args) throws InterruptedException {
-
         DownloadQueue downloadDb = new DownloadQueue();
         AnalyzeQueue analyzeDb = new AnalyzeQueue();
-        downloadDb.addElement("https://sitejs.org/");
-
-
-
+        downloadDb.addElement(Params.STARTING_URL);
         ExecutorService exec = Executors.newFixedThreadPool(Params.THREADS_COUNT);
         DownloadThread download;
         AnalyzeThread analyze;
@@ -28,16 +22,8 @@ public class GetPage {
             analyze = new AnalyzeThread(downloadDb, analyzeDb);
             exec.execute(download);
             exec.execute(analyze);
-
             System.out.println(download.getId());
             System.out.println(analyze.getId());
-
         }
-
-        System.out.println("Main thread finishing");
-
-
     }
-
-
 }
