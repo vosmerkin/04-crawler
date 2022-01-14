@@ -1,6 +1,6 @@
 package crawler.thread;
 
-import crawler.DownloadUrl;
+import crawler.services.DownloadUrl;
 import crawler.queue.AnalyzeQueue;
 import crawler.queue.DownloadQueue;
 import org.jsoup.nodes.Document;

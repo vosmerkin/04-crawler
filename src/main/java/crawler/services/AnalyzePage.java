@@ -1,5 +1,6 @@
-package crawler;
+package crawler.services;
 
+import crawler.Params;
 import crawler.queue.DownloadQueue;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

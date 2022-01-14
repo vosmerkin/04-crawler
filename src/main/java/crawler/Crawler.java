@@ -5,10 +5,12 @@ import crawler.queue.DownloadQueue;
 import crawler.thread.AnalyzeThread;
 import crawler.thread.DownloadThread;
 
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-public class GetPage {
+public class Crawler {
 
     public static void main(String[] args) throws InterruptedException {
         DownloadQueue downloadDb = new DownloadQueue();
@@ -22,8 +24,9 @@ public class GetPage {
             analyze = new AnalyzeThread(downloadDb, analyzeDb);
             exec.execute(download);
             exec.execute(analyze);
-            System.out.println(download.getId());
-            System.out.println(analyze.getId());
         }
+        TimeUnit.SECONDS.sleep(Params.SHUTDOWN_TIMEOUT_IN_SECONDS);
+        exec.shutdown();
+        if (!exec.awaitTermination(Params.AWAIT_TERMINATION_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)) exec.shutdownNow();
     }
 }
