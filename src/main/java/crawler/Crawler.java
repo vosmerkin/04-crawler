@@ -22,6 +22,7 @@ public class Crawler {
         for (int i = 0; i < Params.THREADS_COUNT; i++) {
             download = new DownloadThread(downloadDb, analyzeDb);
             analyze = new AnalyzeThread(downloadDb, analyzeDb);
+
             exec.execute(download);
             exec.execute(analyze);
         }

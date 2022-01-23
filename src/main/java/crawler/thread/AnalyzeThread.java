@@ -6,10 +6,16 @@ import crawler.queue.DownloadQueue;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class AnalyzeThread implements Runnable {
     private final DownloadQueue downloadDb;
     private final AnalyzeQueue analyzeDb;
+    static {
+        Thread.currentThread().setName("AnalyzeThread_" + Thread.currentThread().getId());
+    }
+
+    private static Logger log = Logger.getLogger(AnalyzeThread.class.getName());
 
     public AnalyzeThread(DownloadQueue downloadDb, AnalyzeQueue analyzeDb) {
         this.downloadDb = downloadDb;
@@ -20,21 +26,23 @@ public class AnalyzeThread implements Runnable {
         return Thread.currentThread().getId();
     }
 
+
     @Override
     public void run() {
-        System.out.println("ID " + getId() + " Analyze started");
+        Thread.currentThread().setName("AnalyzeThread_" + Thread.currentThread().getId());
+        log.info(Thread.currentThread().getName() + " started");
         Document doc = null;
         AnalyzePage analyzePage = new AnalyzePage();
         boolean hasElementsToAnalyze = true;
         while (hasElementsToAnalyze) {
-            System.out.println("ID " + getId() + " Requesting page ");
+            log.info(Thread.currentThread().getName() + "_Requesting page");
             try {
                 doc = analyzeDb.getNextElement();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (!(null == doc)) {
-                System.out.println("ID " + getId() + " Analyzing page " + doc.baseUri());
+                log.info(Thread.currentThread().getName() + " Analyzing page " + doc.baseUri());
                 try {
                     analyzePage.analyze(doc, downloadDb);
                 } catch (IOException | InterruptedException e) {
@@ -44,6 +52,6 @@ public class AnalyzeThread implements Runnable {
                 hasElementsToAnalyze = false;
             }
         }
-        System.out.println("ID " + getId() + " Analyze finishing");
+        log.info(Thread.currentThread().getName() + "_Analyze finishing");
     }
 }
