@@ -13,4 +13,5 @@ public class Params {
     public static final String STARTING_URL = "https://sitejs.org/";
     public static final int AWAIT_TERMINATION_TIMEOUT_IN_SECONDS = 60;
     public static final int SHUTDOWN_TIMEOUT_IN_SECONDS = 20;
+    public static final String LOG_FILE_NAME = "MyLogFile.log";
 }
