@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 public class AnalyzePage {
     private static Logger log = Logger.getLogger(AnalyzePage.class.getName());
+
     public void analyze(Document doc, DownloadQueue downloadDb) throws IOException, InterruptedException {
         Elements hrefs = doc.select(Params.URL_SEARCH_STRING1);
         for (Element href : hrefs) {
