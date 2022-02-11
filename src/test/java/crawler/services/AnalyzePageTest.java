@@ -26,7 +26,7 @@ class AnalyzePageTest {
 
     @Test
     void analyze() throws IOException, InterruptedException {
-        downloadDbMock= new DownloadQueue();
+        downloadDbMock= mock( DownloadQueue.class);
         analyzePage = new AnalyzePage();
         analyzePage.analyze(document,downloadDbMock);
         verify(downloadDbMock, times(4)).addElement(anyString());

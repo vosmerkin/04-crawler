@@ -13,13 +13,23 @@ public class DownloadQueue implements Queue<String> {
 
     @Override
     public void addElement(String element) throws InterruptedException {
-        if (!fullUrlList.contains(element)) {
-            fullUrlList.add(element);
-            downloadQueue.put(element);
+        if (null != element) {
+            if (!fullUrlList.contains(element)) {
+                fullUrlList.add(element);
+                downloadQueue.put(element);
+            }
         }
     }
 
     public String getNextElement() throws InterruptedException {
         return downloadQueue.poll(Params.TIMEOUT_IF_QUEUE_IS_EMPTY, TimeUnit.SECONDS);
     }
+
+    public void addElements(Set<String> elements) throws InterruptedException {
+        for (String element : elements) {
+            this.addElement(element);
+        }
+    }
+
+
 }

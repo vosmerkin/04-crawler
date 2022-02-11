@@ -41,10 +41,10 @@ public class AnalyzeThread implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (!(null == doc)) {
+            if (null != doc) {
                 log.info(Thread.currentThread().getName() + " Analyzing page " + doc.baseUri());
                 try {
-                    analyzePage.analyze(doc, downloadDb);
+                    downloadDb.addElement(analyzePage.analyze(doc);
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }

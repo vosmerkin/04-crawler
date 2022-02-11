@@ -7,16 +7,21 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class AnalyzePage {
     private static Logger log = Logger.getLogger(AnalyzePage.class.getName());
 
-    public void analyze(Document doc, DownloadQueue downloadDb) throws IOException, InterruptedException {
+    public Set<String> analyze(Document doc) throws IOException, InterruptedException {
+        Set<String> set = new HashSet<>();
+        String newUrl = new String();
         Elements hrefs = doc.select(Params.URL_SEARCH_STRING1);
         for (Element href : hrefs) {
-            if (href != null && href.attr(Params.URL_SEARCH_STRING2).contains(doc.baseUri())) {
-                downloadDb.addElement(href.attr(Params.URL_SEARCH_STRING2));
+            newUrl = href.attr(Params.URL_SEARCH_STRING2);
+            if (href != null && newUrl.contains(doc.baseUri())) {
+                set.add(newUrl);
                 log.config(Thread.currentThread().getName() + "_AnalyzePage_adding URL " + href.attr(Params.URL_SEARCH_STRING2));
             }
         }
