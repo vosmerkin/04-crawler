@@ -4,6 +4,7 @@ import crawler.queue.AnalyzeQueue;
 import crawler.queue.DownloadQueue;
 import crawler.thread.AnalyzeThread;
 import crawler.thread.DownloadThread;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -13,7 +14,7 @@ import java.util.logging.*;
 
 public class Crawler {
 
-    private static Logger log = Logger.getLogger(Crawler.class.getName());
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(AnalyzeThread.class);
 
     public static void main(String[] args) throws InterruptedException {
         Handler fh;
@@ -25,7 +26,7 @@ public class Crawler {
             Logger.getLogger("").addHandler(fh);
         } catch (SecurityException | IOException e) {
             e.printStackTrace();
-            log.log(Level.WARNING, "Cannot create new logger FileHandler: " + logfile, e);
+            log.warn("Cannot create new logger FileHandler {} {}", logfile, e);
         }
         log.info(logfile);
         DownloadQueue downloadDb = new DownloadQueue();

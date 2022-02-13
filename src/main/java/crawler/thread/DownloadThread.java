@@ -4,14 +4,15 @@ import crawler.queue.AnalyzeQueue;
 import crawler.queue.DownloadQueue;
 import crawler.services.DownloadUrl;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public class DownloadThread implements Runnable {
     private final DownloadQueue downloadDb;
     private final AnalyzeQueue analyzeDb;
-    private static Logger log = Logger.getLogger(DownloadThread.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(AnalyzeThread.class);
 
     static {
         Thread.currentThread().setName("DownloadThread_ " + Thread.currentThread().getId());
@@ -29,20 +30,20 @@ public class DownloadThread implements Runnable {
     @Override
     public void run() {
         Thread.currentThread().setName("DownloadThread_ " + Thread.currentThread().getId());
-        log.info(Thread.currentThread().getName()  + " started");
+        log.info("DownloadThread run {}", Thread.currentThread().getName());
         String url = null;
         Document doc;
         DownloadUrl downloadUrl = new DownloadUrl();
         boolean hasElementsToDownload = true;
         while (hasElementsToDownload) {
-            log.info(Thread.currentThread().getName() + "_Requesting URL ");
+            log.info("DownloadThread Requesting URL {}", Thread.currentThread().getName());
             try {
                 url = downloadDb.getNextElement();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (!(null == url)) {
-                log.info(Thread.currentThread().getName() + " Downloading URL " + url);
+                log.info("DownloadThread Downloading URL {} {}", url, Thread.currentThread().getName());
                 try {
                     doc = downloadUrl.getByUrl(url);
                     analyzeDb.addElement(doc);
@@ -53,6 +54,6 @@ public class DownloadThread implements Runnable {
                 hasElementsToDownload = false;
             }
         }
-        log.info(Thread.currentThread().getName() +  " Download finishing");
+        log.info("DownloadThread finishing {}", Thread.currentThread().getName());
     }
 }
