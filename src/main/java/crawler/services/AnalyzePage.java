@@ -15,7 +15,7 @@ import java.util.Set;
 public class AnalyzePage {
     private static final Logger log = LoggerFactory.getLogger(AnalyzePage.class);
 
-    public Set<String> analyze(Document doc) throws IOException, InterruptedException {
+    public Set<String> analyze(Document doc) {
         Set<String> set = new HashSet<>();
         String newUrl;
         Elements hrefs = doc.select(Params.URL_SEARCH_STRING1);
