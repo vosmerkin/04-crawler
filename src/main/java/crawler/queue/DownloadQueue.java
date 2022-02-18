@@ -32,8 +32,10 @@ public class DownloadQueue implements Queue<String> {
 
     public void addElements(Set<String> elements) throws InterruptedException {
         log.debug("DownloadQueue addElements {}", Thread.currentThread().getName());
-        for (String element : elements) {
-            this.addElement(element);
+        if (null != elements) {
+            for (String element : elements) {
+                this.addElement(element);
+            }
         }
     }
 }

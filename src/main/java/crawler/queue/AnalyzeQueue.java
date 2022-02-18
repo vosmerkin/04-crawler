@@ -16,7 +16,9 @@ public class AnalyzeQueue implements Queue<Document> {
     @Override
     public void addElement(Document element) throws InterruptedException {
         log.debug("AnalyzeQueue addElement {}", Thread.currentThread().getName());
-        analyzeQueue.offer(element, Params.TIMEOUT_IF_ANALYZEDB_IS_FULL, TimeUnit.SECONDS);
+        if (null != element) {
+            analyzeQueue.offer(element, Params.TIMEOUT_IF_ANALYZEDB_IS_FULL, TimeUnit.SECONDS);
+        }
     }
 
     @Override

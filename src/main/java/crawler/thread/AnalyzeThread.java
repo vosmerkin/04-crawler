@@ -47,7 +47,7 @@ public class AnalyzeThread implements Runnable {
             if (null != doc) {
                 try {
                     downloadDb.addElements(analyzePage.analyze(doc));
-                } catch (IOException | InterruptedException e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             } else {
