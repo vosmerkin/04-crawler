@@ -6,12 +6,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.TimeUnit;
 
 public class DownloadQueue implements Queue<String> {
     private final Set<String> fullUrlList = new ConcurrentSkipListSet<>();
-    private final ArrayBlockingQueue<String> downloadQueue = new ArrayBlockingQueue<>(Params.URL_QUEUE_SIZE);
+    private final BlockingQueue<String> downloadQueue = new ArrayBlockingQueue<>(Params.URL_QUEUE_SIZE);
     private static final Logger log = LoggerFactory.getLogger(DownloadQueue.class);
 
     @Override

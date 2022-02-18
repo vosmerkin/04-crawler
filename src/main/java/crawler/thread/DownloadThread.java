@@ -23,10 +23,6 @@ public class DownloadThread implements Runnable {
         this.analyzeDb = analyzeDb;
     }
 
-    public Long getId() {
-        return Thread.currentThread().getId();
-    }
-
     @Override
     public void run() {
         Thread.currentThread().setName("DownloadThread_ " + Thread.currentThread().getId());

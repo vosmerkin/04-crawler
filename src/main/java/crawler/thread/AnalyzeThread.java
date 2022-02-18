@@ -7,10 +7,6 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
-;
-
 public class AnalyzeThread implements Runnable {
     private final DownloadQueue downloadDb;
     private final AnalyzeQueue analyzeDb;
@@ -24,11 +20,6 @@ public class AnalyzeThread implements Runnable {
         this.downloadDb = downloadDb;
         this.analyzeDb = analyzeDb;
     }
-
-    public Long getId() {
-        return Thread.currentThread().getId();
-    }
-
 
     @Override
     public void run() {

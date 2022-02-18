@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,20 +35,21 @@ class AnalyzePageTest {
     }
 
     @Test
-    void AnalyzePageTest() throws IOException, InterruptedException {
+    void AnalyzePageTest1() {
 //        Assertions.assertEquals(expectedList.toArray(), analyzePage.analyze(document).toArray());
-        Assertions.assertIterableEquals(expectedList,analyzePage.analyze(document));
-    }
-    @Test
-    void AnalyzePageTestNull() throws IOException, InterruptedException {
-        Assertions.assertIterableEquals(null,analyzePage.analyze(null));
+        Assertions.assertIterableEquals(expectedList, analyzePage.analyze(document));
     }
 
     @Test
-    void AnalyzePageTestNoUrl() throws IOException, InterruptedException {
+    void AnalyzePageTestNull() {
+        Assertions.assertIterableEquals(null, analyzePage.analyze(null));
+    }
+
+    @Test
+    void AnalyzePageTestNoUrl() {
         document.setBaseUri(baseURL1);
-        Assertions.assertIterableEquals(null,analyzePage.analyze(document));
+        expectedList.clear();
+        Assertions.assertIterableEquals(expectedList, analyzePage.analyze(document));
     }
-
 }
-
+//нужно ли тестировать Runnable?

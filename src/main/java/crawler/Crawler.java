@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Crawler {
 
@@ -18,7 +21,7 @@ public class Crawler {
 
     public static void main(String[] args) throws InterruptedException {
         Handler fh;
-        String logfile = System.getProperty("user.dir") + "/" + Params.LOG_FILE_NAME;
+        String logfile = Params.LOG_FILE_PATH + Params.LOG_FILE_NAME;
         try {
             fh = new FileHandler(logfile);
             SimpleFormatter formatter = new SimpleFormatter();

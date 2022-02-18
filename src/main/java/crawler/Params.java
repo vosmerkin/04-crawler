@@ -14,4 +14,5 @@ public class Params {
     public static final int AWAIT_TERMINATION_TIMEOUT_IN_SECONDS = 60;
     public static final int SHUTDOWN_TIMEOUT_IN_SECONDS = 20;
     public static final String LOG_FILE_NAME = "MyLogFile.log";
+    public static final String LOG_FILE_PATH = System.getProperty("user.dir") + "/";
 }
