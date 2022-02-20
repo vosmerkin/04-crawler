@@ -14,11 +14,10 @@ public class AnalyzeQueue implements Queue<Document> {
     public final BlockingQueue<Document> analyzeQueue = new ArrayBlockingQueue<>(Params.PAGE_QUEUE_SIZE);
 
     @Override
-    public void addElement(Document element) throws InterruptedException {
+    public boolean addElement(Document element) throws InterruptedException {
         log.debug("AnalyzeQueue addElement {}", Thread.currentThread().getName());
-        if (null != element) {
-            analyzeQueue.offer(element, Params.TIMEOUT_IF_ANALYZEDB_IS_FULL, TimeUnit.SECONDS);
-        }
+        if (null == element) return false;
+        return analyzeQueue.offer(element, Params.TIMEOUT_IF_ANALYZEDB_IS_FULL, TimeUnit.SECONDS);
     }
 
     @Override

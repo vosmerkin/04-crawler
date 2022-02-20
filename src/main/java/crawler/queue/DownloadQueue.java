@@ -16,14 +16,13 @@ public class DownloadQueue implements Queue<String> {
     private static final Logger log = LoggerFactory.getLogger(DownloadQueue.class);
 
     @Override
-    public void addElement(String element) throws InterruptedException {
+    public boolean addElement(String element) throws InterruptedException {
         log.debug("DownloadQueue addElement {}", Thread.currentThread().getName());
-        if (null != element) {
-            if (!fullUrlList.contains(element)) {
-                fullUrlList.add(element);
-                downloadQueue.put(element);
-            }
-        }
+        if (null == element) return false;
+        if (fullUrlList.contains(element)) return false;
+        fullUrlList.add(element);
+        downloadQueue.put(element);
+        return true;
     }
 
     public String getNextElement() throws InterruptedException {
@@ -31,12 +30,13 @@ public class DownloadQueue implements Queue<String> {
         return downloadQueue.poll(Params.TIMEOUT_IF_QUEUE_IS_EMPTY, TimeUnit.SECONDS);
     }
 
-    public void addElements(Set<String> elements) throws InterruptedException {
+    public boolean addElements(Set<String> elements) throws InterruptedException {
+        boolean result = true;
         log.debug("DownloadQueue addElements {}", Thread.currentThread().getName());
-        if (null != elements) {
-            for (String element : elements) {
-                this.addElement(element);
-            }
+        if (null == elements || elements.size() == 0) return false;
+        for (String element : elements) {
+            result = this.addElement(element) && result;
         }
+        return result;
     }
 }

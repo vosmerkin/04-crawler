@@ -51,3 +51,9 @@ public class Crawler {
         if (!exec.awaitTermination(Params.AWAIT_TERMINATION_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)) exec.shutdownNow();
     }
 }
+
+
+//DownloadQueque(AnalyzeQueue) boolean addElemnet
+//do i need to test simple methods
+// comparing collections, true only if order is the same
+//AnalyzeThread:34 - maybe its better to do AnalyzeDB.isEmpty before AnalyzeDB.getNextElement?
