@@ -18,7 +18,7 @@ public class DownloadQueue implements Queue<String> {
     @Override
     public boolean addElement(String element) throws InterruptedException {
         log.debug("DownloadQueue addElement {}", Thread.currentThread().getName());
-        if (null == element) return false;
+        if (element == null) return false;
         if (fullUrlList.contains(element)) return false;
         fullUrlList.add(element);
         downloadQueue.put(element);

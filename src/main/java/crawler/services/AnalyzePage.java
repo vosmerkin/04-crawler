@@ -14,7 +14,11 @@ public class AnalyzePage {
     private static final Logger log = LoggerFactory.getLogger(AnalyzePage.class);
 
     public Set<String> analyze(Document doc) {
-        if (null==doc) return null;
+        if (null == doc) {
+            log.error("Incorrect input parameter: {}", doc);
+            return null;
+        }
+        
         Set<String> set = new HashSet<>();
         String newUrl;
         Elements hrefs = doc.select(Params.URL_SEARCH_STRING1);

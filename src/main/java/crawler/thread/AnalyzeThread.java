@@ -25,26 +25,24 @@ public class AnalyzeThread implements Runnable {
     public void run() {
         Thread.currentThread().setName("AnalyzeThread_" + Thread.currentThread().getId());
         log.info("AnalyzeThread run {}", Thread.currentThread().getName());
-        Document doc = null;
+        Document doc;
         AnalyzePage analyzePage = new AnalyzePage();
         boolean hasElementsToAnalyze = true;
         while (hasElementsToAnalyze) {
             log.info("AnalyzeThread Requesting page {}", Thread.currentThread().getName());
             try {
                 doc = analyzeDb.getNextElement();
+                if (doc == null) {
+                    hasElementsToAnalyze = false;
+                } else {
+                    downloadDb.addElements(analyzePage.analyze(doc));
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (null != doc) {
-                try {
-                    downloadDb.addElements(analyzePage.analyze(doc));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                hasElementsToAnalyze = false;
-            }
+
         }
         log.info("AnalyzeThread finishing {}", Thread.currentThread().getName());
     }
+
 }
